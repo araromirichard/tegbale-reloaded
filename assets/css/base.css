@@ -1,0 +1,16 @@
+:root {
+    --primary-300: rgb(29, 83, 221);
+    --primary-500: rgb(64, 142, 213);
+    --primary-950: rgb(23, 29, 83);
+
+    --tgrey-400: rgb(169, 169, 169);
+    --tgrey-500: rgb(243, 243, 243);
+    --tsuccess-500: rgb(12, 159, 9);
+
+    --tdanger-400: rgb(254, 13, 13);
+    --tdanger-500: rgb(247, 45, 45);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

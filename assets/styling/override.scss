@@ -1,0 +1,65 @@
+html,
+body,
+* {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  line-height: normal;
+  font-weight: 400;
+  overscroll-behavior: none;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-style: normal;
+  font-family: "PT Serif", serif;
+  margin: 0;
+  padding: 0;
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+input {
+  &::placeholder {
+    color: #666666;
+  }
+}
+
+button {
+  cursor: pointer;
+  @include no-select;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+}

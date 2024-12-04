@@ -41,27 +41,27 @@
   background-color: #fff;
 
   &__header {
-    height: rem(70);
-    // border-bottom: rem(1) solid #e7e7e4;
+    height: to-rem(70);
+    // border-bottom: to-rem(1) solid #e7e7e4;
 
-    @media screen and (max-width: rem(768)) {
+    @media screen and (max-width: to-rem(768)) {
       border: none;
-      height: rem(60);
+      height: to-rem(60);
     }
 
     display: flex;
     align-items: center;
-    padding: 0 rem(20);
+    padding: 0 to-rem(20);
 
     .brand {
       display: flex;
       align-items: center;
-      gap: rem(8);
-      margin-top: rem(10);
+      gap: to-rem(8);
+      margin-top: to-rem(10);
 
       span {
         color: #408ed5;
-        font-size: rem(22);
+        font-size: to-rem(22);
         font-weight: 700;
         font-family: 'roboto', sans-serif;
       }
@@ -70,19 +70,19 @@
     div {
       display: flex;
       align-items: center;
-      gap: rem(8);
-      margin-top: rem(10);
+      gap: to-rem(8);
+      margin-top: to-rem(10);
 
       img {
-        width: rem(43);
-        height: rem(43);
+        width: to-rem(43);
+        height: to-rem(43);
       }
 
       h1 {
         @include body-font;
-        font-size: rem(22);
+        font-size: to-rem(22);
         font-weight: 700;
-        line-height: rem(20);
+        line-height: to-rem(20);
         letter-spacing: 0em;
         color: #1c1c1c;
       }
@@ -97,25 +97,26 @@
     flex: 1;
     overflow: auto;
     @include no-select;
-    padding: rem(10);
+    padding: to-rem(10);
 
-    @media screen and (min-width: rem(768)) {
-      padding: rem(30) rem(20);
+    @media screen and (min-width: to-rem(768)) {
+      padding: to-rem(30) to-rem(20);
     }
 
-    @media screen and (min-width: rem(1300)) {
-      padding-top: rem(50);
+    @media screen and (min-width: to-rem(1300)) {
+      padding-top: to-rem(50);
     }
 
     a {
       display: flex;
       align-items: center;
-      gap: rem(8);
+      gap: to-rem(8);
       color: var(--grey-100);
       text-decoration: none;
-      border-radius: rem(10);
-      padding: rem(12) !important;
+      border-radius: to-rem(10);
+      padding: to-rem(12) !important;
       transition: all 0.5s ease;
+      margin-bottom: to-rem(4);
 
       span {
         font-size: 14px;
@@ -126,7 +127,7 @@
       }
 
       svg {
-        font-size: rem(20) !important;
+        font-size: to-rem(20) !important;
         transition: all 0.4s ease;
       }
 
@@ -144,7 +145,7 @@
         }
 
         svg {
-          margin-left: rem(15);
+          margin-left: to-rem(15);
           color: #fff;
         }
       }

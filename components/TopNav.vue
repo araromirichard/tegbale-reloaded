@@ -75,15 +75,15 @@ watch(
 
   .button {
     &--trigger {
-      padding: rem(10);
+      padding: to-rem(10);
       padding-left: 0;
 
       svg {
         color: #2a2829;
-        font-size: rem(24);
+        font-size: to-rem(24);
       }
 
-      @media screen and (min-width: rem(1025)) {
+      @media screen and (min-width: to-rem(1025)) {
         display: none;
       }
     }
@@ -92,17 +92,17 @@ watch(
   .actions {
     display: flex;
     align-items: center;
-    gap: rem(20);
+    gap: to-rem(20);
 
-    @media screen and (max-width: rem(767)) {
+    @media screen and (max-width: to-rem(767)) {
       display: none;
     }
 
     button,
     a {
       border-radius: 50%;
-      height: rem(40);
-      width: rem(40);
+      height: to-rem(40);
+      width: to-rem(40);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -114,7 +114,7 @@ watch(
 
       svg {
         color: #2a2829;
-        font-size: rem(24);
+        font-size: to-rem(24);
       }
     }
 

@@ -12,7 +12,9 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "@studio-freight/lenis": "^1.0.36",
+    "@types/numeral": "^2.0.5",
     "mitt": "^3.0.1",
+    "numeral": "^2.0.6",
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",

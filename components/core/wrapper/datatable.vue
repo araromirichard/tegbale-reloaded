@@ -115,16 +115,16 @@ const paginatedData = computed(() => {
     background-color: #fff;
 
     th {
-      font-size: rem(12);
+      font-size: to-rem(12);
       font-weight: 600;
       letter-spacing: 2px;
     }
 
     td {
-      font-size: rem(12);
+      font-size: to-rem(12);
 
       span {
-        font-size: rem(12);
+        font-size: to-rem(12);
       }
     }
   }

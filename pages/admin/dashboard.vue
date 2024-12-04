@@ -33,23 +33,21 @@ definePageMeta({
     @include page-padding;
 
     h3 {
-        font-size: 30px;
+        font-size: to-rem(30);
         font-weight: 500;
-        font-family: "Roboto", sans-serif;
-        margin-top: .25rem;
     }
 
     .summary__wrapper {
-        margin-top: rem(40);
+        margin-top: to-rem(40);
         width: 100%;
         height: auto;
 
-        @media screen and (min-width: rem(768)) {
-            margin-top: rem(24);
+        @media screen and (min-width: to-rem(768)) {
+            margin-top: to-rem(40);
         }
 
         .summary__item {
-            @include grid-layout(4, rem(24))
+            @include grid-layout(4, to-rem(24))
         }
     }
 

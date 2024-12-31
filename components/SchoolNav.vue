@@ -7,22 +7,25 @@
       </div>
     </div>
     <div class="default-layout-side-nav__links">
-      <nuxt-link to="/admin/dashboard">
+      <nuxt-link to="/school/dashboard">
         <Icon name="lucide:airplay" /> <span>Dashboard</span>
       </nuxt-link>
-      <nuxt-link to="/admin/schools">
-        <Icon name="bxs:school" /> <span>Schools</span>
+      <nuxt-link to="/school/classrooms">
+        <Icon name="bxs:school" /> <span>Classroom</span>
       </nuxt-link>
-      <nuxt-link to="/admin/teachers">
+      <nuxt-link to="/school/teachers">
         <Icon name="ph:chalkboard-teacher-light" /> <span>Teachers</span>
       </nuxt-link>
-      <nuxt-link to="/admin/students">
+      <nuxt-link to="/school/students">
         <Icon name="fluent:people-team-24-regular" /> <span>Students</span>
       </nuxt-link>
-      <nuxt-link to="/admin/guardians">
+      <nuxt-link to="/school/guardians">
         <Icon name="lucide:users" /> <span>Guardians</span>
       </nuxt-link>
-      <nuxt-link to="/admin/settings">
+      <nuxt-link to="/school/events">
+        <Icon name="lucide:calendar" /> <span>Events</span>
+      </nuxt-link>
+      <nuxt-link to="/school/settings">
         <Icon name="lucide:settings" /> <span>Settings</span>
       </nuxt-link>
 

@@ -24,7 +24,16 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hasDropdown: {
+    type: Boolean,
+    default: false,
+  }
 });
+
+const isOpen = ref(false);
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value;
+};
 
 const buttonClasses = computed(() => ({
   "custom-button": true,
@@ -33,19 +42,71 @@ const buttonClasses = computed(() => ({
   "custom-button--block": props.block,
   "custom-button--loading": props.loading,
   "custom-button--disabled": props.disabled,
+  "custom-button--dropdown": props.hasDropdown,
 }));
 </script>
 
 <template>
-  <button :class="buttonClasses" :type="type" :disabled="disabled || loading">
-    <span v-if="loading" class="loader"></span>
-    <span v-else class="button-content">
-      <slot></slot>
-    </span>
-  </button>
+  <div class="button-wrapper" :class="{ 'has-dropdown': hasDropdown }">
+    <button 
+      :class="buttonClasses" 
+      :type="type" 
+      :disabled="disabled || loading"
+      @click="hasDropdown ? toggleDropdown() : $emit('click')"
+    >
+      <span v-if="loading" class="loader"></span>
+      <span v-else class="button-content">
+        <slot></slot>
+        <Icon v-if="hasDropdown" name="lucide:chevron-down" class="dropdown-icon" />
+      </span>
+    </button>
+
+    <div v-if="hasDropdown" v-show="isOpen" class="dropdown-menu">
+      <slot name="dropdown-items"></slot>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
+.button-wrapper {
+  position: relative;
+  display: inline-block;
+
+  &.has-dropdown {
+    .dropdown-icon {
+      margin-left: to-rem(4);
+      transition: transform 0.2s ease;
+    }
+
+    &:has(.dropdown-menu:visible) {
+      .dropdown-icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + to-rem(4));
+  right: 0;
+  min-width: to-rem(200);
+  background: white;
+  border: 1px solid var(--tgrey-200);
+  border-radius: var(--radius-md);
+  box-shadow: 0 to-rem(4) to-rem(6) rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  
+  ::slotted(.dropdown-item) {
+    padding: to-rem(8) to-rem(16);
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--tgrey-100);
+    }
+  }
+}
+
 .custom-button {
   display: inline-flex;
   align-items: center;

@@ -4,7 +4,7 @@
 <template>
   <div class="default-layout">
     <nav>
-      <AdminNav />
+      <SchoolNav />
     </nav>
     <main>
       <header>

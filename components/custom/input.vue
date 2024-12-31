@@ -55,6 +55,22 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  type: {
+    type: String,
+    default: "text",
+    validator: (value: string) => {
+      return [
+        "text",
+        "number",
+        "date",
+        "datetime-local",
+        "money",
+        "password",
+        "tel",
+        "time",
+      ].includes(value);
+    },
+  },
 });
 
 defineOptions({
@@ -81,6 +97,9 @@ const [model, modifiers] = defineModel({
   },
 });
 
+const showCalendarIcon = computed(() => {
+  return props.type === "date";
+});
 const inputRef = ref<HTMLInputElement | null>(null);
 
 const isPrefixIcon = computed(() => {
@@ -97,6 +116,9 @@ const isSuffixIcon = computed(() => {
 const isSuffixClickable = computed(() => {
   return !!hasPropsOrEvents("onSuffixClick");
 });
+const handleCalendarClick = () => {
+  inputRef.value?.showPicker();
+};
 
 const convertToCommaSeparated = (value: string | number) => {
   return value
@@ -172,6 +194,7 @@ defineExpose({
           ref="inputRef"
           v-bind="$attrs"
           v-model="model"
+          :type="props.type"
           :placeholder="placeholder"
           :disabled="disabled"
         />
@@ -258,7 +281,7 @@ defineExpose({
       border: none;
       font-size: inherit;
       font-weight: inherit;
-      line-height: 0 !important;
+      line-height: to-rem(15) !important;
       padding: 0 !important;
       letter-spacing: inherit;
       background-color: inherit;

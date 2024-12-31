@@ -132,7 +132,7 @@ defineExpose({
           </button>
         </div>
         <div class="dialog-body">
-          <slot name="body"/>
+          <slot name="body" />
         </div>
       </div>
     </transition>
@@ -167,10 +167,29 @@ defineExpose({
     background: white;
     border-radius: 8px;
     width: 90%;
-    max-width: 600px;
+    max-width: 650px;
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
+
+    // Custom scrollbar styles
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+
+      &:hover {
+        background: #666;
+      }
+    }
 
     .dialog-header {
       padding: 20px;

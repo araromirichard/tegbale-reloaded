@@ -2,13 +2,13 @@
 const props = defineProps<{
   visible: boolean;
   mode: "view" | "edit";
-  studentData: any;
+  eventData: any;
 }>();
 
 const visible = defineModel("visible", { type: Boolean, default: false });
 const emit = defineEmits(["update:visible", "submit"]);
 
-const formData = ref({ ...props.studentData });
+const formData = ref({ ...props.eventData });
 
 const closeDialog = () => {
   emit("update:visible", false);
@@ -20,7 +20,7 @@ const handleSubmit = () => {
 };
 
 watch(
-  () => props.studentData,
+  () => props.eventData,
   (newData) => {
     formData.value = { ...newData };
   },
@@ -31,13 +31,13 @@ watch(
 <template>
   <RightSidedModal
     :visible="visible"
-    :header="mode === 'view' ? 'View Student Details' : 'Edit Student Details'"
+    :header="mode === 'view' ? 'View Event Details' : 'Edit Event Details'"
     width="35rem"
     @update:visible="$emit('update:visible', $event)"
   >
     <template #header>
       <h3 class="modalTitle">
-        {{ mode === "view" ? "View Student Details" : "Edit Student Details" }}
+        {{ mode === "view" ? "View Event Details" : "Edit Event Details" }}
       </h3>
     </template>
 
@@ -45,7 +45,7 @@ watch(
       <form @submit.prevent="handleSubmit">
         <div class="space-y-4">
           <div class="form-group">
-            <label>Full Name</label>
+            <label>Event Name</label>
             <input
               v-model="formData.name"
               type="text"
@@ -55,9 +55,9 @@ watch(
           </div>
 
           <div class="form-group">
-            <label>School</label>
+            <label>Category</label>
             <input
-              v-model="formData.school"
+              v-model="formData.category"
               type="text"
               :readonly="mode === 'view'"
               class="w-full p-2 border rounded"
@@ -65,9 +65,29 @@ watch(
           </div>
 
           <div class="form-group">
-            <label>Class</label>
+            <label>Date</label>
             <input
-              v-model="formData.class"
+              v-model="formData.date"
+              type="date"
+              :readonly="mode === 'view'"
+              class="w-full p-2 border rounded"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Time</label>
+            <input
+              v-model="formData.time"
+              type="time"
+              :readonly="mode === 'view'"
+              class="w-full p-2 border rounded"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Venue</label>
+            <input
+              v-model="formData.venue"
               type="text"
               :readonly="mode === 'view'"
               class="w-full p-2 border rounded"
@@ -75,9 +95,9 @@ watch(
           </div>
 
           <div class="form-group">
-            <label>Parent Name</label>
+            <label>Coordinator</label>
             <input
-              v-model="formData.parentName"
+              v-model="formData.coordinator"
               type="text"
               :readonly="mode === 'view'"
               class="w-full p-2 border rounded"
@@ -85,33 +105,24 @@ watch(
           </div>
 
           <div class="form-group">
-            <label>Email</label>
-            <input
-              v-model="formData.email"
-              type="email"
+            <label>Description</label>
+            <textarea
+              v-model="formData.description"
               :readonly="mode === 'view'"
               class="w-full p-2 border rounded"
-            />
+              rows="3"
+            ></textarea>
           </div>
 
           <div class="form-group">
-            <label>Phone</label>
+            <label>Budget</label>
             <input
-              v-model="formData.phone"
-              type="tel"
+              v-model="formData.budget"
+              type="number"
               :readonly="mode === 'view'"
               class="w-full p-2 border rounded"
             />
           </div>
-
-          <custom-input
-            v-model="formData.joinDate"
-            type="date"
-            label="Join Date"
-            suffix="app-icon:calendar|#808080"
-            :readonly="mode === 'view'"
-            required
-          />
 
           <div v-if="mode === 'edit'" class="flex justify-end gap-2 mt-12">
             <custom-button variant="secondary" @click="closeDialog"
@@ -141,7 +152,8 @@ watch(
     font-size: 0.875rem;
   }
 
-  input {
+  input,
+  textarea {
     &[readonly] {
       background-color: #f3f4f6;
       cursor: not-allowed;

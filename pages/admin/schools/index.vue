@@ -2,12 +2,12 @@
   <div class="page-container">
     <section class="title__wrapper">
       <h3>Schools</h3>
-      <custom-button @click="showform" class="add-button">
-        <template #default>
+      <div>
+        <custom-button variant="primary" @click="showform">
           <Icon name="lucide:circle-plus" />
           Add School
-        </template>
-      </custom-button>
+        </custom-button>
+      </div>
     </section>
 
     <section class="mt-8">

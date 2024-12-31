@@ -1,0 +1,94 @@
+// Colors - matching your Tailwind theme
+$colors: (
+  "primary": (
+    "300": var(--primary-300),
+    "500": var(--primary-500),
+    "950": var(--primary-950),
+  ),
+  "grey": (
+    "400": var(--tgrey-400),
+    "500": var(--tgrey-500),
+  ),
+  "success": (
+    "500": var(--tsuccess-500),
+  ),
+  "danger": (
+    "400": var(--tdanger-400),
+    "500": var(--tdanger-500),
+  ),
+);
+
+// Typography
+$font-families: (
+  primary: (
+    "Poppins",
+    sans-serif,
+  ),
+  secondary: (
+    "Roboto",
+    sans-serif,
+  ),
+  tertiary: (
+    "PT Serif",
+    serif,
+  ),
+  text: (
+    "Inter",
+    sans-serif,
+  ),
+);
+
+// Breakpoints
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  "2xl": 1536px,
+);
+
+// Layout
+$container-max-width: 1450px;
+$spacing-unit: 4px;
+$layout-grid-columns: 12;
+
+// Z-index layers
+$z-layers: (
+  modal: 1000,
+  overlay: 900,
+  dropdown: 800,
+  header: 700,
+  footer: 600,
+);
+
+// Transitions
+$transitions: (
+  fast: 150ms,
+  base: 200ms,
+  slow: 300ms,
+);
+
+// Border radius
+$radius: (
+  sm: 4px,
+  md: 8px,
+  lg: 12px,
+  xl: 16px,
+  full: 9999px,
+);
+
+// Shadows
+$shadows: (
+  sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+  base: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+  lg: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+);
+
+// Function to access nested maps
+@function get-color($color, $shade) {
+  $color-map: map-get($colors, $color);
+  @if $color-map {
+    @return map-get($color-map, $shade);
+  }
+  @return null;
+}

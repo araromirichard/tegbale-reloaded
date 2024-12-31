@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+
 const visible = ref(false);
 const search = ref(false);
 const route = useRoute();
 
 const handleSearch = () => {
   search.value = !search.value;
-}
+};
 
 // close sidebar on route change
 watch(
@@ -15,6 +16,7 @@ watch(
   }
 );
 </script>
+
 <template>
   <div class="default-layout-top-nav">
     <div>
@@ -40,31 +42,19 @@ watch(
       </nuxt-link>
     </div>
 
-    <Sidebar v-model:visible="visible" :show-close-icon="false" :pt="{
-      root: {
-        style: {
-          padding: '0px !important',
-          width: '100% !important',
-          maxWidth: '272px',
-        },
-      },
-
-      header: {
-        style: {
-          display: 'none',
-        },
-      },
-
-      content: {
-        style: {
-          padding: '0px !important',
-        },
-      },
-    }">
-      <AdminNav />
-    </Sidebar>
+    <!-- Native Vue Sidebar -->
+    <ClientOnly>
+      <Transition name="slide">
+        <div v-if="visible" class="sidebar">
+          <div class="sidebar-content">
+            <AdminNav />
+          </div>
+        </div>
+      </Transition>
+    </ClientOnly>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .default-layout-top-nav {
   height: 100%;
@@ -72,6 +62,7 @@ watch(
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 
   .button {
     &--trigger {
@@ -123,23 +114,36 @@ watch(
     }
   }
 
-  .search-container {
-    overflow: hidden;
-    transition: height 0.8s ease-out;
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 272px;
+    background: white;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .sidebar-content {
+    padding: 1rem;
+    height: 100%;
+    overflow-y: auto;
   }
 
   .slide-enter-active,
   .slide-leave-active {
-    transition: height 0.8s ease-out;
-    /* Match transition timing */
+    transition: transform 0.3s ease;
   }
 
-  .slide-enter,
+  .slide-enter-from,
   .slide-leave-to {
-    height: 0;
-    /* Start with zero height to hide content */
-    opacity: 0;
-    /* Optionally fade out content */
+    transform: translateX(-100%);
+  }
+
+  .search-container {
+    overflow: hidden;
+    transition: height 0.8s ease-out;
   }
 }
 </style>

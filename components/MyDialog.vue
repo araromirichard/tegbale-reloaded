@@ -1,126 +1,140 @@
-<script lang="ts" setup>
-const isActive = ref(false);
-const visible = defineModel("visible", {
-  type: Boolean,
-  default: false,
-});
+<script setup lang="ts">
+import {
+  ref,
+  computed,
+  defineProps,
+  defineEmits,
+  watch,
+  nextTick,
+  onMounted,
+  onUnmounted,
+} from "vue";
 
+// Reactive state
+const isActive = ref(false);
 const canShow = ref(false);
 
+// Props and Emits
 const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
   closeable: {
     type: Boolean,
     default: true,
   },
 });
 
-const emits = defineEmits({
-  onClose: () => true,
-});
+const emits = defineEmits(["update:modelValue", "close"]);
 
+// Modal element reference
 const modal = ref<HTMLElement | null>(null);
 
-const open = () => {
+// Open the modal
+const open = async () => {
   isActive.value = true;
-  visible.value = true;
+  await nextTick();
+  canShow.value = true;
 };
 
-const viewHasScrollBar = computed(() => {
-  if (window) {
-    return window.innerWidth > document.documentElement.clientWidth;
-  } else return false;
-});
-
-const close = () => {
+// Close the modal
+const close = async () => {
   if (!props.closeable) {
     shakeContent();
     return;
   }
   canShow.value = false;
-  emits("onClose");
-  sleep(200).then(() => {
-    isActive.value = false;
-    visible.value = false;
-  });
+  emits("close");
+  await sleep(300); // Transition duration
+  isActive.value = false;
+  emits("update:modelValue", false);
 };
 
+// Shake content if not closeable
 const shakeContent = () => {
-  //add the shake class for few seconds
-  document.querySelector(".app-modal")?.classList.add("not-closeable");
-  sleep(500).then(() => {
-    document.querySelector(".app-modal")?.classList.remove("not-closeable");
-  });
+  const modalElement = modal.value || document.querySelector(".app-modal");
+  modalElement?.classList.add("not-closeable");
+  setTimeout(() => {
+    modalElement?.classList.remove("not-closeable");
+  }, 500);
 };
 
-const clickOutside = (e: any) => {
-  if (e.target == e.currentTarget && props.closeable) {
-    close();
+// Detect if the viewport has a scrollbar
+const viewHasScrollBar = computed(() => {
+  if (typeof window !== "undefined") {
+    return window.innerWidth > document.documentElement.clientWidth;
   }
-
-  if (e.target == e.currentTarget && !props.closeable) {
-    shakeContent();
-  }
-};
-
-// listen for escape key
-onMounted(() => {
-  window.addEventListener("keyup", (e) => {
-    if (e.key === "Escape" && props.closeable) {
-      close();
-    }
-
-    if (e.key === "Escape" && !props.closeable) {
-      shakeContent();
-    }
-  });
+  return false;
 });
 
-// watch visible prop
+// Handle clicking outside the modal
+const clickOutside = (e: MouseEvent) => {
+  if (e.target === e.currentTarget) {
+    close();
+  }
+};
+
+// Escape key listener
+const handleEscape = (e: KeyboardEvent) => {
+  if (e.key === "Escape") {
+    close();
+  }
+};
+
+// Watchers for reactive behavior
 watch(
-  () => visible.value,
-  (val: boolean) => {
+  () => props.modelValue,
+  async (val) => {
     if (val) {
-      open();
+      await open();
+      document.body.classList.add("no-scroll");
     } else {
-      close();
+      await close();
+      document.body.classList.remove("no-scroll");
     }
   },
   { immediate: true }
 );
 
-watch(
-  () => isActive.value,
-  async (val: boolean) => {
-    if (val) {
-      if (viewHasScrollBar.value) {
-        document.body?.classList.add("no-scroll");
-      }
-      await sleep(2);
-      canShow.value = true;
-    } else {
-      canShow.value = false;
-      await sleep(1);
-      document.body?.classList.remove("no-scroll");
-    }
-  },
-  { immediate: true }
-);
+// Lifecycle hooks
+onMounted(() => {
+  window.addEventListener("keyup", handleEscape, { passive: true });
+});
 
-// expose open and close methods
+onUnmounted(() => {
+  window.removeEventListener("keyup", handleEscape);
+});
+
+// Expose methods to parent components
 defineExpose({
   open,
   close,
 });
 </script>
+
 <template>
   <div
-    v-if="visible"
+    v-if="props.modelValue"
+    ref="modal"
     class="app-modal"
     :class="{ active: isActive }"
     @click="clickOutside"
   >
     <transition name="modal-anim">
-      <slot v-if="canShow" />
+      <div v-if="canShow" class="dialog-content">
+        <div class="dialog-header">
+          <slot name="header">
+            <h3>Default Header</h3>
+          </slot>
+          <button v-if="props.closeable" @click="close" class="close-button">
+            <Icon name="lucide:x" />
+          </button>
+        </div>
+        <div class="dialog-body">
+          <slot name="body"/>
+        </div>
+      </div>
     </transition>
   </div>
 </template>
@@ -140,20 +154,62 @@ defineExpose({
   align-items: center;
   pointer-events: none;
   transition: all 0.3s ease-in-out;
-  @include no-select;
 
   &.active {
-    cursor: pointer;
-    z-index: map-get($z-index, popup);
+    cursor: default;
+    z-index: 1000;
     backdrop-filter: blur(2px);
     pointer-events: all;
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  &.not-closeable {
-    > * {
-      @include shake;
+  .dialog-content {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+
+    .dialog-header {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h3 {
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      .close-button {
+        background: transparent;
+        border: none;
+        padding: 4px;
+        cursor: pointer;
+
+        &:hover {
+          color: #ff5f5f;
+        }
+      }
+    }
+
+    .dialog-body {
+      padding: 20px;
     }
   }
+}
+
+.modal-anim-enter-active,
+.modal-anim-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.modal-anim-enter-from,
+.modal-anim-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
 }
 </style>

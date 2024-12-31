@@ -1,6 +1,5 @@
 <template>
     <div class="login-page">
-
         <div class="flex flex-col justify-center items-center">
             <img src="/brand/tegbale-logo.png" alt="tegbale logo"
                 class="w-16 h-16 object-contain block md:hidden" /><br>
@@ -9,31 +8,39 @@
             </h3>
         </div>
         <form @submit="handleSubmit" class="mt-8 space-y-4">
-            <core-wrapper-input label="Email" :error="errorMessages.email">
-                <InputText id="email" v-model="formData.email" type="email" placeholder="Your email"
-                    :class="{ 'p-invalid': emailHasError }" :aria-invalid="emailHasError" />
-            </core-wrapper-input>
+            <custom-input
+                v-model="formData.email"
+                type="email"
+                label="Email"
+                placeholder="Your email"
+                :error="errorMessages.email"
+            />
 
-            <core-wrapper-input label="Password" :error="errorMessages.password">
-                <InputText id="password" v-model="formData.password" type="password" placeholder="********"
-                    :class="{ 'p-invalid': true }" :aria-invalid="passwordHasError" />
-
-                <div class="flex justify-end items-center link">
-                    <nuxt-link to="#">
+            <div class="password-section">
+                <custom-input
+                    v-model="formData.password"
+                    type="password"
+                    label="Password"
+                    placeholder="********"
+                    :error="errorMessages.password"
+                />
+                <div class="flex justify-end">
+                    <nuxt-link to="#" class="text-sm text-primary-500 hover:text-primary-300">
                         Forgot Password?
                     </nuxt-link>
                 </div>
-
-            </core-wrapper-input>
-
+            </div>
 
             <div class="mt-4">
-                <nuxt-link to="/"><Button label="Sign in" class="signin-button" /></nuxt-link>
+                <custom-button variant="primary" type="submit" block>
+                    Sign in
+                </custom-button>
             </div>
         </form>
-        
     </div>
 </template>
+
+
 
 <script lang="ts" setup>
 definePageMeta({

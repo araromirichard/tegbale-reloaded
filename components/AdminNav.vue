@@ -9,7 +9,6 @@
     <div class="default-layout-side-nav__links">
       <nuxt-link to="/admin/dashboard">
         <Icon name="lucide:airplay" /> <span>Dashboard</span>
-
       </nuxt-link>
       <nuxt-link to="/admin/schools">
         <Icon name="bxs:school" /> <span>Schools</span>
@@ -26,6 +25,12 @@
       <nuxt-link to="/admin/settings">
         <Icon name="lucide:settings" /> <span>Settings</span>
       </nuxt-link>
+
+      <div class="logout-wrapper">
+        <nuxt-link to="/logout" class="logout-link">
+          <Icon name="lucide:log-out" /> <span>Logout</span>
+        </nuxt-link>
+      </div>
     </div>
   </div>
 </template>
@@ -63,7 +68,7 @@
         color: #408ed5;
         font-size: to-rem(22);
         font-weight: 700;
-        font-family: 'roboto', sans-serif;
+        font-family: "roboto", sans-serif;
       }
     }
 
@@ -98,6 +103,28 @@
     overflow: auto;
     @include no-select;
     padding: to-rem(10);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 70px);
+
+    .logout-wrapper {
+      margin-top: auto;
+      padding-bottom: to-rem(20);
+
+      .logout-link {
+        color: var(--tdanger-500) !important;
+
+        &:hover {
+          background-color: var(--tdanger-100, #ff5f5f0d) !important;
+        }
+
+        svg {
+          color: var(--tdanger-500) !important;
+        }
+      }
+    }
 
     @media screen and (min-width: to-rem(768)) {
       padding: to-rem(30) to-rem(20);
